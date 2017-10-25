@@ -9,7 +9,10 @@ Currently there is no GUI yet, and it's purely CLI, so you're not really able to
 
 On your host machine
 ```bash
-cd [joslink dir]
+git clone https://github.com/ValveSoftware/steamlink-sdk
+cd steamlink-sdk/examples
+git clone https://github.com/the-eater/JOSLINK.git
+cd JOSLINK
 mkdir dist
 cd dist
 cmake ..
@@ -25,13 +28,16 @@ e.g:
 cd /home/apps/joslink;
 export LD_LIBRARY_PATH=/home/apps/joslink/lib;
 ./bin/jackd -d netone &
+# Make sure no app is running which is using the SteamLink audio
+# Most likely `shell` is using it, so kill that process
 ./joslink &
+# Run this for every channel
 ./bin/jack_connect system:capture_[n] JOSLINK:channel_[n]
 ```
 
 ## TODO
 
-* Create QT application
+* Create Qt front, so it can run like a real SteamLink app
 * Create auto-patcher (connect channels automatically with jack capture points)
 
 ## Credits
