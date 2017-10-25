@@ -13,7 +13,7 @@ cmake_minimum_required(VERSION 3.9)
 project(joslink)
 
 set(SOURCE_FILES
-        src/main.c src/transport_info.c src/transport_info.h)
+        src/main.c src/transport.c src/transport.h)
 
 SET($ENV{JOSLINK_PREFIX} "/home/apps/joslink")
 SET($ENV{STEAMLINK_CONFIGURE_OPTS} "--host=armv7a-cros-linux-gnueabi --with-sysroot=${MARVELL_ROOTFS} --prefix=/home/apps/joslink")
@@ -27,6 +27,8 @@ add_custom_target(external ALL
 
 add_executable(joslink ${SOURCE_FILES})
 
-# add_dependencies(joslink external)
+add_custom_target(joslink-all ALL)
+
+add_dependencies(joslink-all external joslink)
 
 install(TARGETS joslink RUNTIME DESTINATION "/")

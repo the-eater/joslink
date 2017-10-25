@@ -2,24 +2,35 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-#include "transport_info.h"
+#include "transport.h"
 
 
 
 int main(void) {
-    int errno = 0;
-    struct TransportInfo *info = malloc(sizeof(struct TransportInfo));
+    struct Transport *info;
 
     printf("Welcome to JOSLINK %s\n", JOSLINK_VERSION);
-    printf("Fetching TransportInfo\n");
+    printf("Fetching Transport\n");
 
-    errno = GetInfo(info);
-    if (errno != 0) {
-        printf("Failed to get TransportInfo quiting...\n");
+    // Create transport
+    info = transport_create();
+    if (info == NULL) {
+        printf("Failed to get Transport quiting...\n");
         return 1;
     }
 
+    // init transport
+    transport_init(info);
+    printf("Done init, going in forever sleep");
+
+    // Go in sleep while JACK thread does the callback
+    while (1) {
+        sleep(1);
+    }
+
     printf("Exiting JOSLINK\n");
+    transport_free(info);
     return 0;
 }
